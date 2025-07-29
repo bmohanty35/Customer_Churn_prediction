@@ -72,7 +72,7 @@ The predicted probabilities are converted into binary predictions using a thresh
 
 Metrics like accuracy and a classification report (precision, recall, F1-score) are used to measure performance.
 
-14. Saving the Model
+# 14. Saving the Model
 The trained model's parameters (weights and biases) are saved to a .pth file.
 
 This allows reusing the model later without retraining.
