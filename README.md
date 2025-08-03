@@ -40,9 +40,6 @@ To assess how well the model generalizes to unseen data.
 ### Structure:
 A 4-layer feedforward neural network:
 
-scss
-Copy
-Edit
 Input → Linear(64) → ReLU → Linear(32) → ReLU → Linear(16) → ReLU → Linear(1) → Sigmoid
 ### Reason:
 ReLU helps capture nonlinear relationships.
