@@ -1,78 +1,96 @@
 # Customer_Churn_prediction
 
-# Step-by-Step Project Explanation
-# 1. Problem Definition
-Customer churn prediction is a binary classification task. The goal is to predict whether a customer will churn (leave) or stay based on their service usage, demographics, and account details.
+## 1. Objective
+You aimed to build a binary classification model using PyTorch to predict whether a customer will churn (leave the service) or not, based on features from the Telco Customer Churn dataset.
 
-# 2. Data Loading and Exploration
-The dataset is sourced from a telecom company and includes features like gender, contract type, internet service, payment method, tenure, etc.
+## 2. Data Preprocessing
+### Steps:
+Loaded the dataset using pandas.
 
-The target variable is "Churn" with values Yes or No.
+Dropped customerID (irrelevant to prediction).
 
-# 3. Data Cleaning
-Some columns may contain missing or inconsistent values (like spaces in numeric fields).
+Replaced blank spaces with NaN and dropped missing values.
 
-These are replaced with NaN and dropped to ensure the model isn't misled by invalid inputs.
+Converted TotalCharges from string to numeric.
 
-# 4. Target Encoding
-The target variable "Churn" is converted from Yes/No to 1/0 to make it suitable for machine learning models.
+Encoded categorical columns using LabelEncoder.
 
-# 5. Categorical Feature Encoding
-Categorical (text) columns are converted to numerical values using Label Encoding.
+Encoded the target column (Churn) into binary:
+'Yes' → 1 and 'No' → 0
 
-This allows neural networks to process inputs that were originally in string format.
+Standardized features using StandardScaler.
 
-# 6. Feature Scaling
-Input features are standardized using StandardScaler, which transforms data to have a mean of 0 and standard deviation of 1.
+### Reason:
+Neural networks require numerical and scaled inputs.
 
-This ensures the model trains efficiently and avoids biases due to varying scales of input features.
+Categorical encoding enables model interpretability.
 
-# 7. Train-Test Split
-The dataset is split into a training set and a test set.
+Data cleaning ensures integrity for learning.
 
-The model is trained on the training data and evaluated on the unseen test data to validate its generalization.
+## 3. Dataset Splitting
+Used train_test_split() to split the dataset into:
 
-# 8. Tensor Conversion
-The NumPy arrays (from the processed DataFrame) are converted into PyTorch tensors.
+80% training
 
-The target tensors are reshaped into 2D format to match the expected output shape of the model.
+20% testing
 
-# 9. Dataset and DataLoader Creation
-PyTorch's TensorDataset wraps the input and target tensors.
+To assess how well the model generalizes to unseen data.
 
-The DataLoader helps in batching the data and shuffling it during training for better generalization and performance.
+## 4. Model Architecture
+### Structure:
+A 4-layer feedforward neural network:
 
-# 10. Model Definition
-A simple feedforward neural network is defined using nn.Module.
+scss
+Copy
+Edit
+Input → Linear(64) → ReLU → Linear(32) → ReLU → Linear(16) → ReLU → Linear(1) → Sigmoid
+### Reason:
+ReLU helps capture nonlinear relationships.
 
-It includes multiple Linear (fully connected) layers with ReLU activation functions, and ends with a Sigmoid layer to output a probability between 0 and 1.
+Sigmoid ensures outputs are in [0,1] → interpretable as probabilities for binary classification.
 
-# 11. Loss Function and Optimizer
-The model uses Binary Cross-Entropy Loss (BCELoss) because the task is binary classification.
+## 5. Training
+### Settings:
+Loss Function: BCELoss (Binary Cross Entropy)
 
-The optimizer used is Adam, which adapts learning rates during training for faster convergence.
+Optimizer: Adam (learning rate = 0.001)
 
-# 12. Training the Model
-The model is trained for a fixed number of epochs.
+Epochs: 50
 
-In each epoch:
+Batch size: 32
 
-A forward pass computes predictions.
+### Loss Trend:
+Epoch 1 → Loss: 0.4881
+...
+Epoch 25 → Loss: 0.3486
+...
+Epoch 50 → Loss: 0.2764
+### Interpretation:
+The training loss consistently decreased, indicating the model learned meaningful patterns.
 
-The loss is calculated.
+There was no overfitting observed from loss progression alone.
 
-A backward pass computes gradients.
+## 6. Evaluation on Test Data
+### Metrics:
+Test Accuracy: 75.69%
+### Classification Report:
+Averages:
+Accuracy: 76%
 
-The optimizer updates model weights using the gradients.
+Macro Avg (Unweighted): F1 = 68%
 
-# 13. Model Evaluation
-The trained model is evaluated on the test set.
+Weighted Avg (By Support): F1 = 76%
 
-The predicted probabilities are converted into binary predictions using a threshold (e.g., 0.5).
+### Interpretation:
+The model is very good at predicting non-churn customers (Class 0).
 
-Metrics like accuracy and a classification report (precision, recall, F1-score) are used to measure performance.
+However, performance on churned customers (Class 1) is much lower:
 
-# 14. Saving the Model
-The trained model's parameters (weights and biases) are saved to a .pth file.
+Recall = 52%: Nearly half the churn cases are missed.
 
-This allows reusing the model later without retraining.
+Precision = 54%: Nearly half of predicted churns are incorrect.
+
+This indicates a class imbalance problem, which the model hasn't fully overcome.
+
+## 7. Model Saving
+To reuse or deploy the trained model without retraining.del later without retraining.
