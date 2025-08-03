@@ -1,7 +1,7 @@
 # Customer_Churn_prediction
 
 ## 1. Objective
-You aimed to build a binary classification model using PyTorch to predict whether a customer will churn (leave the service) or not, based on features from the Telco Customer Churn dataset.
+To build a binary classification model using PyTorch to predict whether a customer will churn (leave the service) or not, based on features from the Telco Customer Churn dataset.
 
 ## 2. Data Preprocessing
 ### Steps:
