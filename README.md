@@ -90,4 +90,4 @@ Precision = 54%: Nearly half of predicted churns are incorrect.
 This indicates a class imbalance problem, which the model hasn't fully overcome.
 
 ## 7. Model Saving
-To reuse or deploy the trained model without retraining.del later without retraining.
+To reuse or deploy the trained model without retraining.
